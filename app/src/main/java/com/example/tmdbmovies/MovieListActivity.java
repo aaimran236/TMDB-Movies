@@ -1,12 +1,14 @@
 package com.example.tmdbmovies;
 
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
@@ -32,6 +34,8 @@ public class MovieListActivity extends AppCompatActivity implements OnMovieListe
     private MovieListViewModel movieListViewModel;
 
     boolean isPopular=true;
+
+    private  AlertDialog.Builder alertdialogBuilder;
 
 
     @Override
@@ -151,6 +155,8 @@ public class MovieListActivity extends AppCompatActivity implements OnMovieListe
             @Override
             public boolean onClose() {
                 //do what you want  searchview is not expanded
+                ///Getting popular movies
+
                 return false;
             }
         });
@@ -176,6 +182,29 @@ public class MovieListActivity extends AppCompatActivity implements OnMovieListe
             }
         });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        alertdialogBuilder = new AlertDialog.Builder(this);
+        alertdialogBuilder.setTitle(R.string.title_string1);
+        alertdialogBuilder.setMessage(R.string.title_message1);
+        alertdialogBuilder.setIcon(R.drawable.alert1);
+        alertdialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                finish();
+            }
+        });
+        alertdialogBuilder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        AlertDialog alertDialog = alertdialogBuilder.create();
+        alertDialog.show();
     }
 }
 //    private void getRetrofitResponse() {

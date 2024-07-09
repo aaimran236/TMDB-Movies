@@ -19,6 +19,7 @@
         android:fontFamily="serif"
         android:text="Choose a Movie for Today"
         android:textSize="48sp"
+        android:textStyle="bold"
         />
 
     <androidx.appcompat.widget.Toolbar
