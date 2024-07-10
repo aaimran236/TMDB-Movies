@@ -90,7 +90,6 @@ public class MovieListActivity extends AppCompatActivity implements OnMovieListe
 //                        Log.v("tagy","movies: "+movieModel.getTitle());
 
                     movieRecyclerViewAdapter.setmMovies(movieModels);
-
                 }
             }
         });
@@ -125,6 +124,18 @@ public class MovieListActivity extends AppCompatActivity implements OnMovieListe
 
         ///RecyclerView pagination
         ///Looking next page of api response
+//        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+//                if (!recyclerView.canScrollVertically(1)){
+//                    ///here we need to display the next search result on the next page of api
+//                    movieListViewModel.searchNextPage();
+//                }
+//            }
+//        });
+    }
+
+    public void onScroll(){
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
@@ -154,9 +165,18 @@ public class MovieListActivity extends AppCompatActivity implements OnMovieListe
         searchView.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
-                //do what you want  searchview is not expanded
-                ///Getting popular movies
+                //do what you want  searchView is not expanded
+                movieListViewModel.getMovies().removeObserver(new Observer<List<MovieModel>>() {
+                    @Override
+                    public void onChanged(List<MovieModel> movieModels) {
 
+                    }
+                });
+
+                recyclerView.clearOnScrollListeners();
+
+                ///Getting popular movies
+                movieListViewModel.searchMoviePop(1);
                 return false;
             }
         });
@@ -173,6 +193,7 @@ public class MovieListActivity extends AppCompatActivity implements OnMovieListe
                         query,
                         1
                 );
+                onScroll();
                 return false;
             }
 
