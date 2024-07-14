@@ -173,10 +173,13 @@ public class MovieListActivity extends AppCompatActivity implements OnMovieListe
                     }
                 });
 
+
                 recyclerView.clearOnScrollListeners();
 
                 ///Getting popular movies
                 movieListViewModel.searchMoviePop(1);
+                configureRecyclerView();
+                ///observePopularMovies();
                 return false;
             }
         });

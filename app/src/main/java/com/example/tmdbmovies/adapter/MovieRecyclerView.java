@@ -3,6 +3,7 @@ package com.example.tmdbmovies.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RatingBar;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
@@ -57,7 +58,14 @@ public class MovieRecyclerView extends RecyclerView.Adapter<RecyclerView.ViewHol
         if (itemViewType == DISPLAY_SEARCH) {
 
             // vote average is over 10, and our rating bar is over 5 stars: dividing by 2
-            ((MovieViewHolder) holder).ratingBar.setRating((mMovies.get(position).getVote_average()) / 2);
+            ((MovieViewHolder) holder).ratingBar.setRating((mMovies.get(position).getVote_average())/2);
+
+            ((MovieViewHolder) holder).ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+                @Override
+                public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
+                    ((MovieViewHolder) holder).ratingBar.setRating((mMovies.get(position).getVote_average())/2);
+                }
+            });
 
             // ImageView: Using Glide Library
             Glide.with(holder.itemView.getContext())

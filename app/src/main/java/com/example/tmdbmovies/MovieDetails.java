@@ -1,6 +1,7 @@
 package com.example.tmdbmovies;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -14,12 +15,14 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.bumptech.glide.Glide;
 import com.example.tmdbmovies.models.MovieModel;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MovieDetails extends AppCompatActivity {
 
     private ImageView imageViewDetails;
     private TextView titleDetails,descDetails;
     private RatingBar ratingBarDetails;
+    private FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +33,14 @@ public class MovieDetails extends AppCompatActivity {
         titleDetails=findViewById(R.id.textView_title_details);
         descDetails=findViewById(R.id.textView_desc_details);
         ratingBarDetails=findViewById(R.id.ratingBar_details);
+        fab=findViewById(R.id.floatingActionButton);
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         getDataFromIntent();
     }
@@ -47,7 +58,12 @@ public class MovieDetails extends AppCompatActivity {
                     .load("https://image.tmdb.org/t/p/w500/"
                             +movieModel.getPoster_path())
                     .into(imageViewDetails);
-
+            ratingBarDetails.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+                @Override
+                public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
+                    ratingBarDetails.setRating((movieModel.getVote_average())/2);
+                }
+            });
         }
     }
 }
