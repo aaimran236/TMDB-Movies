@@ -51,7 +51,7 @@ public class MovieDetails extends AppCompatActivity {
             ///Toast.makeText(this, ""+movieModel.getMovie_overview(), Toast.LENGTH_SHORT).show();
             titleDetails.setText(movieModel.getTitle());
             descDetails.setText(movieModel.getMovie_overview());
-            ratingBarDetails.setRating((movieModel.getVote_average())/2);
+            ratingBarDetails.setRating( (movieModel.getVote_average()/2));
 
 
             Glide.with(this)

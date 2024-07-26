@@ -63,7 +63,7 @@ public class MovieRecyclerView extends RecyclerView.Adapter<RecyclerView.ViewHol
             ((MovieViewHolder) holder).ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
                 @Override
                 public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
-                    ((MovieViewHolder) holder).ratingBar.setRating((mMovies.get(position).getVote_average())/2);
+                    ((MovieViewHolder) holder).ratingBar.setRating ((mMovies.get(position).getVote_average())/2);
                 }
             });
 
@@ -74,7 +74,13 @@ public class MovieRecyclerView extends RecyclerView.Adapter<RecyclerView.ViewHol
                     .into(((MovieViewHolder) holder).imageView);
 
         } else {
-            ((Popular_view_holder) holder).ratingBar_pop.setRating(mMovies.get(position).getVote_average());
+            ((Popular_view_holder) holder).ratingBar_pop.setRating((mMovies.get(position).getVote_average())/2);
+            ((Popular_view_holder) holder).ratingBar_pop.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+                @Override
+                public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
+                    ((Popular_view_holder) holder).ratingBar_pop.setRating((mMovies.get(position).getVote_average())/2);
+                }
+            });
 
             // ImageView: Using Glide Library
             Glide.with(holder.itemView.getContext())

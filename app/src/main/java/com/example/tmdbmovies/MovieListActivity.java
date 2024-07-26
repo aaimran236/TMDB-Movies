@@ -90,6 +90,7 @@ public class MovieListActivity extends AppCompatActivity implements OnMovieListe
 //                        Log.v("tagy","movies: "+movieModel.getTitle());
 
                     movieRecyclerViewAdapter.setmMovies(movieModels);
+
                 }
             }
         });
@@ -196,6 +197,7 @@ public class MovieListActivity extends AppCompatActivity implements OnMovieListe
                         query,
                         1
                 );
+                configureRecyclerView();
                 onScroll();
                 return false;
             }
