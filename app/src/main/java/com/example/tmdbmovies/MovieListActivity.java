@@ -3,8 +3,11 @@ package com.example.tmdbmovies;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -12,6 +15,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,8 +23,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.tmdbmovies.adapter.MovieRecyclerView;
 import com.example.tmdbmovies.adapter.OnMovieListener;
 import com.example.tmdbmovies.models.MovieModel;
+import com.example.tmdbmovies.networkcheck.CheckNetwork;
+import com.example.tmdbmovies.networkcheck.NetworkChangeReceiver;
 import com.example.tmdbmovies.utils.Credentials;
 import com.example.tmdbmovies.viewmodel.MovieListViewModel;
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.List;
 
 
@@ -37,20 +45,31 @@ public class MovieListActivity extends AppCompatActivity implements OnMovieListe
 
     private  AlertDialog.Builder alertdialogBuilder;
 
+    private NetworkChangeReceiver networkChangeReceiver;
+    public static boolean called=true;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        if (CheckNetwork.isNetWorkAvailable(this)){
+            called=false;
+        }
+
         ///Toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        ///SearchView
-        setUpSearchView();
+        networkChangeReceiver = new NetworkChangeReceiver();
+        registerReceiver(networkChangeReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
 
         recyclerView = findViewById(R.id.recyclerView);
+        ///checking whether network connection is active or not
+
+        ///SearchView
+        setUpSearchView();
 
         movieListViewModel = new ViewModelProvider(this).get(MovieListViewModel.class);
 
@@ -61,6 +80,7 @@ public class MovieListActivity extends AppCompatActivity implements OnMovieListe
 
         ///Getting popular movies
         movieListViewModel.searchMoviePop(1);
+
     }
 
     private void observePopularMovies() {
@@ -101,6 +121,12 @@ public class MovieListActivity extends AppCompatActivity implements OnMovieListe
 //        movieListViewModel.searchMovieApi(query, pageNumber);
 //    }
 
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(networkChangeReceiver);
+    }
 
     @Override
     public void onMovieClick(int position) {
@@ -171,12 +197,11 @@ public class MovieListActivity extends AppCompatActivity implements OnMovieListe
                     @Override
                     public void onChanged(List<MovieModel> movieModels) {
 
+
                     }
                 });
-
-
+                
                 recyclerView.clearOnScrollListeners();
-
                 ///Getting popular movies
                 movieListViewModel.searchMoviePop(1);
                 configureRecyclerView();
@@ -232,6 +257,16 @@ public class MovieListActivity extends AppCompatActivity implements OnMovieListe
         AlertDialog alertDialog = alertdialogBuilder.create();
         alertDialog.show();
     }
+
+    public void refreshData(){
+        if (called){
+            called=false;
+            // Network is back, refresh the app
+            Toast.makeText(this, "Internet connected, refreshing...", Toast.LENGTH_SHORT).show();
+            recreate();
+        }
+    }
+
 }
 //    private void getRetrofitResponse() {
 //        MovieApi movieApi = Servicey.getMovieApi();
