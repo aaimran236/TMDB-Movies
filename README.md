@@ -8,7 +8,8 @@ TMDB Movies is an Android application that fetches data from The Movie Database 
 - Search for movies using the search functionality.
 - View detailed information about a selected movie.
 ## Video
-https://github.com/aaimran236/TMDB-Movies/assets/106193863/dd705d85-08c2-4460-91f3-b66f6e880748
+https://github.com/user-attachments/assets/78ad143f-eab6-4b6d-922c-ac8a055406df
+
 
 ## Screenshots
 
