@@ -1,5 +1,6 @@
 package com.example.tmdbmovies.adapter;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,7 +47,7 @@ public class MovieRecyclerView extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
 //        ((MovieViewHolder)holder).title.setText(mMovies.get(position).getTitle());
 //        ((MovieViewHolder)holder).release_date.setText(mMovies.get(position).getRelease_date());
 //
